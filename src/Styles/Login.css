@@ -1,0 +1,34 @@
+body {
+    background: linear-gradient(90deg, rgb(41, 8, 58) 0%, rgb(45, 18, 93) 35%, rgb(216, 200, 231)100%);
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+form{
+    width: 26%;
+    background-color: rgb(246, 240, 246);
+    padding: 40px;
+    border-radius: 10px;
+    margin-top: 250px;
+}
+
+.btn-primary {
+    width: 100%;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, rgb(41, 8, 58) 0%, rgb(45, 18, 93) 35%, rgb(129, 94, 162)100%);
+}
+
+.form-control {
+color: rgba(0, 0, 0, 87);
+border-bottom-color: rgba(0, 0, 0, 42);
+box-shadow: none;
+border: none;
+border-bottom: 1px solid;
+border-radius: 4px 4px 0 0;
+}

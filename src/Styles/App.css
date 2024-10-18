@@ -1,0 +1,44 @@
+.custom-container {
+  padding: 20px; 
+  margin: 0 0; 
+  background-color: #fafafa;
+}
+
+.custom-container2{
+  padding: 30px; 
+  margin: 0 10px; 
+  background-color: #dadada;
+  border-radius: 5px;
+}
+
+.custom-nav {
+  background-color: #131b2b;
+  border-radius: 5px;
+}
+
+.custom-table {
+  margin: 20px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-table th {
+  background-color: #ebedee !important; 
+  color: white;
+  text-align: center;
+}
+
+.custom-table tbody tr {
+  transition: background-color 0.2s ease !important;
+}
+
+.custom-table tbody tr:hover{
+  background-color: #851b1b !important;
+}
+
+.custom-table td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 10px 0 !important;
+}
