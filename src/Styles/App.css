@@ -25,7 +25,7 @@
 
 .custom-table th {
   background-color: #ebedee !important; 
-  color: white;
+  color: rgb(0, 0, 0);
   text-align: center;
 }
 
@@ -39,6 +39,6 @@
 
 .custom-table td {
   vertical-align: middle;
-  text-align: center;
+  /* text-align: center; */
   padding: 10px 0 !important;
 }

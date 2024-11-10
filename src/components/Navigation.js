@@ -10,7 +10,7 @@ function Navigation() {
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                 <Navbar.Text className='text-light'>
-                    Signed in as: <a href="#login" className='text-light'>User Name</a>
+                    Signed in as: <a href="#login" className='text-light'>Admin</a>
                 </Navbar.Text>
                 </Navbar.Collapse>
             </Container>

@@ -1,19 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Alert from 'react-bootstrap/Alert';
 import Navigation from '../components/Navigation';
 import FormInput from '../components/FormInput';
-import TableProduct from '../components/TableProduct';
-import TablePagination from '../components/TablePagination';
+// import TablePagination from '../components/TablePagination';
+//import Test from '../components/test';
 
 function Dashboard() {
     return (
         <div className='custom-container'>
             <Navigation />
             <FormInput/>
-            <TableProduct />
-            <TablePagination />
-            
-          
+            {/* <Test/> */}
+            {/* <TableProduct /> */}
+            {/* //<Test/> */}
+            {/* <TablePagination /> */}
         </div>
     )
 }    

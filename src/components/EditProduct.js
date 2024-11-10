@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, Col, Row } from 'react-bootstrap';
+import { Modal, Button, Form, Col, Row, FormSelect } from 'react-bootstrap';
 
 function EditProduct({ show, handleClose, product, onSave }) {
   const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       backdrop="static"
-      keyboard="false"np
+      keyboard="false"
     >
       <Modal.Header closeButton>
         <Modal.Title>Edit Product</Modal.Title>
@@ -115,13 +115,18 @@ function EditProduct({ show, handleClose, product, onSave }) {
             <Row className='mb-3'>
               <Col>
                 <Form.Label>Category</Form.Label>
-                <Form.Control
-                  name="category"
-                  type="text"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  required
-                />
+                <FormSelect name="category" value={formData.category} onChange={handleInputChange} required>
+                  <option>Fashion & Apparel</option>
+                  <option>Electronics & Gadgets</option>
+                  <option>Health & Beauty</option>
+                  <option>Home & Living</option>
+                  <option>Toys & Baby Products</option>
+                  <option>Sports & Outdoor Equipment</option>
+                  <option>Books & Media</option>
+                  <option>Groceries & Food Products</option>
+                  <option>Pet Supplies</option>
+                  <option>Automotive Parts & Accessories</option>
+                </FormSelect>
               </Col>
             </Row>    
           </Form.Group>

@@ -1,133 +1,97 @@
-import React, { useState, useEffect} from 'react';
-import { Dropdown, Table, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button, Alert } from 'react-bootstrap';
 import '../Styles/App.css'; 
 import EditProduct from './EditProduct';
 import AddProduct from './AddProduct';
 
-function TableProduct() {
-
-  const [data, setData] = useState([]);
+function TableProduct({ data, onSaveProduct, onDeleteProduct }) {
+  
+  // handle states for selected product and modals
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showEdit, setShowEdit] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null); // State for alert message
+
   const handleCloseEdit = () => setShowEdit(false);
-  
+
   const handleDelete = (id) => {
-    const updatedData = data.filter(item => item.id !== id);
-    setData(updatedData);
+    const isYes = window.confirm('Are you sure you want to delete this product?');
+
+    if (isYes) {
+      // Call onDeleteProduct passed as a prop
+      onDeleteProduct(id);
+      setAlertMessage({ type: 'success', message: 'Product deleted successfully!' }); 
+    }
   };
 
   const handleEdit = (product) => {
-    setSelectedProduct(product); // Store product in state for prefilled form
-    setShowEdit(true); // Show edit modal
+    // Store product in state for prefilled form
+    setSelectedProduct(product);
+    setShowEdit(true); 
   };
 
   const handleSaveProduct = (updatedProduct) => {
-    const updatedData = data.map(item => {
-      if (item.id === updatedProduct.id) {
-        return updatedProduct;
-      }
-      return item;
-    });
-    setData(updatedData);
+    onSaveProduct(updatedProduct); 
     setShowEdit(false);
+    setAlertMessage({ type: 'success', message: 'Product updated successfully!' }); 
   };
-
-  // Fetch data from the backend
-  useEffect(() => {
-    const fetchData = () => {
-      fetch('http://127.0.0.1:8000/api/products')
-        .then(response => response.json())
-        .then(data => setData(data))
-        .catch(error => console.error('Error fethcing data:',error));
-    };
-
-    //Initial fetch
-    fetchData();
-
-  }, []); // Empty dependency array means effect runs only once after initial render
 
   return (
     <>
-    <Table hover responsive className="mt-5 custom-table w-100">
-      <thead >
-        <tr>
-         
-          <th>
-            <Dropdown>
-              <Dropdown.Toggle variant="" id="barcode">Item Barcode</Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>Ascending</Dropdown.Item>
-                <Dropdown.Item>Desencending</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>     
-          </th>
-          <th>
-            <Dropdown>
-              <Dropdown.Toggle variant="" id="product-name">Product Name</Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item>Ascending</Dropdown.Item>
-                <Dropdown.Item>Desencending</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>  
-          </th>
-          <th className='p-3'>Description</th>
-          <th>
-            <Dropdown>
-              <Dropdown.Toggle variant="" id="price">Price</Dropdown.Toggle>
-                <Dropdown.Menu>
-                <Dropdown.Item>Highest</Dropdown.Item>
-                <Dropdown.Item>Lowest</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> 
-          </th>
-          <th>
-            <Dropdown>
-              <Dropdown.Toggle variant="" id="stock-qty">Quantity</Dropdown.Toggle>
-                <Dropdown.Menu>
-                <Dropdown.Item>Highest</Dropdown.Item>
-                <Dropdown.Item>Lowest</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> 
-          </th>
-          <th>
-          <Dropdown>
-              <Dropdown.Toggle variant="" id="category">Category</Dropdown.Toggle>
-                <Dropdown.Menu>
-                <Dropdown.Item>Electronics</Dropdown.Item>
-                <Dropdown.Item>Stationery</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown> 
-          </th>
-          <th className='p-3'>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((product) => (
-          <tr key={product.id}>
-            <td>{product.barcode}</td>
-            <td>{product.product_name}</td>
-            <td>{product.description}</td>
-            <td>{product.price}</td>
-            <td>{product.quantity}</td>
-            <td>{product.category}</td>
-            <td className="justify-content-center" width={"10%"}>
-              <Button variant="success" size="sm" onClick={() => handleEdit(product)}>Edit</Button> {' '}
-              <Button variant="danger" size="sm" onClick={() => handleDelete(product.id) }>Delete</Button>
-            </td>
+      <div className='p-3'>
+        {alertMessage && (
+          <Alert variant={alertMessage.type} onClose={() => setAlertMessage(null)} dismissible>
+            {alertMessage.message}
+          </Alert>
+        )}
+      </div>
+      
+      <Table hover responsive className="mt-4 custom-table w-100">
+        <thead>
+          <tr>
+            <th className='p-3'> Item Barcode</th>             
+            <th className='p-3'>Product Name</th>                      
+            <th className='p-3'>Description</th>
+            <th className='p-3'>Price</th>                    
+            <th className='p-3' >Quantity</th>                        
+            <th className='p-3'>Category</th>
+            <th className='p-3'>Action</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
-
-    <EditProduct 
-      show={showEdit}
-      handleClose={handleCloseEdit}
-      product={selectedProduct}
-      onSave={handleSaveProduct}
-    
-    />
+        </thead>
+        <tbody>
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="text-center">
+                No products available
+              </td>
+            </tr>
+          ) : (
+            data.map((product) => (
+              <tr key={product.id} className="p-3">
+                <td className='text-center'>{product.barcode}</td>
+                <td className='text-center'>{product.product_name}</td>
+                <td width={"30%"} className="justify-content-center">{product.description}</td>
+                <td className='text-center'>₱{product.price}</td>
+                <td  className='text-center'>{product.quantity}</td>
+                <td  className='text-center'>{product.category}</td>
+                <td className="text-center" width={"10%"}>
+                  <Button variant="success" size="sm" onClick={() => handleEdit(product)}>Edit</Button> {' '}
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(product.id)}>Delete</Button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </Table>
+      
+      {/* Render edit product */}
+      <EditProduct 
+        show={showEdit}
+        handleClose={handleCloseEdit}
+        product={selectedProduct}
+        onSave={handleSaveProduct}
+      />
     </>
   );
-};
+}
 
 export default TableProduct;
