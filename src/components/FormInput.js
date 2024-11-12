@@ -29,7 +29,7 @@ function FormInput() {
         let filteredProducts = products;
         
         if (search.length > 0) {
-             // Filter by search query
+            // Filter by search query
             filteredProducts = filteredProducts.filter((product) =>
                 product.product_name.toLowerCase().includes(search.toLowerCase())
             );

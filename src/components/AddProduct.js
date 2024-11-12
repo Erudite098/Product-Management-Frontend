@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal, Form, FormLabel, Row, Col } from 'react-bootstrap';
+import { Button, Modal, Form, FormLabel, Row, Col, Alert } from 'react-bootstrap';
 import React, { useState } from 'react';
 
 function AddProduct(props) {
@@ -10,12 +10,15 @@ function AddProduct(props) {
   const [quantity, setQuantity] = useState('');
   const [category, setCategory] = useState('');
 
+  const [successMessage, setSuccessMessage] = useState('');
+
   // Error states for each field
   const [barcodeError, setBarcodeError] = useState('');
   const [productNameError, setProductNameError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const [priceError, setPriceError] = useState('');
   const [quantityError, setQuantityError] = useState('');
+  const [categoryError, setCategoryError] = useState('');
 
   // Helper function for validation
   const validateInputs = () => {
@@ -27,6 +30,7 @@ function AddProduct(props) {
     setDescriptionError('');
     setPriceError('');
     setQuantityError('');
+    setCategoryError('');
 
     // Validate empty fields
     if (barcode.trim() === '' || productName.trim() === '' || description.trim() === '' || price.trim() === '' || quantity.trim() === '') {
@@ -53,14 +57,19 @@ function AddProduct(props) {
     }
 
     // Validate price
-    if (!/^\d+$/.test(price) || parseInt(price) <= 0) {
+    if (price < 0) {
       setPriceError('Price must be a positive number.');
       isValid = false;
     }
 
     // Validate quantity
-    if (!/^\d+$/.test(quantity) || parseInt(quantity) <= 0) {
+    if (!/^\d+$/.test(quantity) || parseInt(quantity) < 0) {
       setQuantityError('Quantity must be a positive number.');
+      isValid = false;
+    }
+
+    if (category === '') {
+      setCategoryError('Please choose a category.');
       isValid = false;
     }
 
@@ -114,7 +123,7 @@ function AddProduct(props) {
 
         // Close the modal
         props.onHide();
-        props.setAlertMessage({ type: 'success', message: 'Product added successfully!' });
+        setSuccessMessage('Product added successfully!');
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -122,6 +131,16 @@ function AddProduct(props) {
   };
 
   return (
+    <div>
+
+      <div className='mt-3'>
+      {successMessage && (
+          <Alert variant="success" onClose={() => setSuccessMessage('')} dismissible>
+            {successMessage}
+          </Alert>          
+      )}        
+      </div>
+        
     <Modal
       {...props}
       size="lg"
@@ -209,6 +228,7 @@ function AddProduct(props) {
                   <option>Pet Supplies</option>
                   <option>Automotive Parts & Accessories</option>
                 </Form.Select>
+                {categoryError && <small className="text-danger">{categoryError}</small>}
               </Col>
             </Row>
           </Form.Group>
@@ -220,6 +240,7 @@ function AddProduct(props) {
         </Form>
       </Modal.Body>
     </Modal>
+    </div>
   );
 }
 

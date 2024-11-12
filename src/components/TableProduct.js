@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Table, Button, Alert } from 'react-bootstrap';
 import '../Styles/App.css'; 
 import EditProduct from './EditProduct';
-import AddProduct from './AddProduct';
 
 function TableProduct({ data, onSaveProduct, onDeleteProduct }) {
   
@@ -45,7 +44,7 @@ function TableProduct({ data, onSaveProduct, onDeleteProduct }) {
         )}
       </div>
       
-      <Table hover responsive className="mt-4 custom-table w-100">
+      <Table hover responsive className="mt-1 custom-table w-100">
         <thead>
           <tr>
             <th className='p-3'> Item Barcode</th>             

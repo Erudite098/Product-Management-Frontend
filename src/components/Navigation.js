@@ -6,7 +6,7 @@ function Navigation() {
     return (
         <Navbar className="custom-nav bg-dark sticky-top">
             <Container>
-                <Navbar.Brand href="#" className="text-light">Product Listing</Navbar.Brand>
+                <Navbar.Brand href="#" className="text-light">Product Management</Navbar.Brand>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                 <Navbar.Text className='text-light'>

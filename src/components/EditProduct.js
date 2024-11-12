@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col, Row, FormSelect } from 'react-bootstrap';
 
 function EditProduct({ show, handleClose, product, onSave }) {
+
   const [formData, setFormData] = useState({
     id: '',
     barcode: '',
@@ -37,8 +38,71 @@ function EditProduct({ show, handleClose, product, onSave }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Validate inputs
+    if (!validateInputs()) {
+      return;
+    }
     onSave(formData); // Pass the updated product data to parent
   };
+
+    // Error states for each field
+    const [barcodeError, setBarcodeError] = useState('');
+    const [productNameError, setProductNameError] = useState('');
+    const [descriptionError, setDescriptionError] = useState('');
+    const [priceError, setPriceError] = useState('');
+    const [quantityError, setQuantityError] = useState('');
+  
+    // Helper function for validation
+    const validateInputs = () => {
+      let isValid = true;
+  
+      // Reset error messages
+      setBarcodeError('');
+      setProductNameError('');
+      setDescriptionError('');
+      setPriceError('');
+      setQuantityError('');
+  
+      // Validate empty fields
+      if (formData.barcode === '' || formData.productName=== '' || formData.description === '' || product.price === '' || product.quantity === '') {
+        alert('Please fill in all the required fields.');
+        isValid = false;
+      }
+  
+      // Validate barcode
+      if (!/^\d+$/.test(formData.barcode) || parseInt(formData.barcode) <= 0) {
+        setBarcodeError('Item barcode must be a positive number.');
+        isValid = false;
+      }
+  
+      // Validate product name
+      if (formData.productName === '') {
+        setProductNameError('Product name must not be empty.');
+        isValid = false;
+      }
+  
+      // Validate description
+      if (formData.description === '') {
+        setDescriptionError('Description must not be empty.');
+        isValid = false;
+      }
+  
+      // Validate price
+      if (formData.price < 0) {
+        setPriceError('Price must be a positive number.');
+        isValid = false;
+      }
+  
+      // Validate quantity
+      if (!/^\d+$/.test(formData.quantity) || parseInt(formData.quantity) < 0) {
+        setQuantityError('Quantity must be a positive number.');
+        isValid = false;
+      }
+  
+      return isValid;
+    };
+  
 
   return (
     <Modal 
@@ -66,6 +130,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
                   onChange={handleInputChange}
                   required
                 />
+                {barcodeError && <small className="text-danger">{barcodeError}</small>}
               </Col>
               <Col>
                 <Form.Label>Product Name</Form.Label>
@@ -76,6 +141,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
                   onChange={handleInputChange}
                   required
                 />
+                 {productNameError && <small className="text-danger">{productNameError}</small>}
               </Col>
             </Row>
             <Row className='mb-3'>
@@ -88,6 +154,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
                   onChange={handleInputChange}
                   required
                 />
+                {descriptionError && <small className="text-danger">{descriptionError}</small>}
               </Col>
               <Col>       
                 <Form.Label>Price</Form.Label>
@@ -99,6 +166,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
                     onChange={handleInputChange}
                     required
                 />
+                {priceError && <small className="text-danger">{priceError}</small>}
               </Col>
 
               <Col>
@@ -110,6 +178,7 @@ function EditProduct({ show, handleClose, product, onSave }) {
                   onChange={handleInputChange}
                   required
                 />
+                {quantityError && <small className="text-danger">{quantityError}</small>}
               </Col>
             </Row>
             <Row className='mb-3'>
